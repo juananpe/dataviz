@@ -1,5 +1,5 @@
 import requests
-import accessmongo
+from accessmongo import *
 
 REST_EU_ROOT_URL = "http://restcountries.eu/rest/v1"
 
@@ -31,6 +31,8 @@ col = db_nobel['country_data']
 
 # Get all the RESTful country-data
 response = REST_country_request()
+
+country_data = response.json()
 #Insert the JSON objects straight to our collection
 col.insert(country_data)
 
