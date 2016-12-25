@@ -1,6 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
+import requests_cache
 import re
+
+
+requests_cache.install_cache()
 
 BASE_URL = 'http://en.wikipedia.org'
 # Wikipedia will reject our request unless we add
@@ -54,4 +58,40 @@ def get_Nobel_winners(table):
      return winners
 
 winners = get_Nobel_winners(table)
-print winners
+# print winners
+
+
+def get_url(url):
+    HEADERS = {'User-Agent': 'Mozilla/5.0'}
+    response = requests.get(url, headers=HEADERS)
+    return BeautifulSoup(response.content, "lxml")
+
+
+def get_winner_nationality(w):
+    """ scrape biographic data from the winner's wikipedia page """
+    soup = get_url('http://en.wikipedia.org' + w['link'])
+    person_data = {'name': w['name']}
+    attr_rows = soup.select('table.infobox tr')
+    for tr in attr_rows:
+        try:
+            attribute = tr.select_one('th').text
+            if attribute == 'Nationality':
+                person_data[attribute] = tr.select_one('td').text
+        except AttributeError:
+            pass
+
+    return person_data
+
+
+wdata = []
+# test first 50 winners
+
+for w in winners[:50]:
+    wdata.append(get_winner_nationality(w))
+missing_nationality = []
+for w in wdata:
+    # if missing 'Nationality' add to list
+    if not w.get('Nationality'):
+        missing_nationality.append(w)
+
+print missing_nationality
