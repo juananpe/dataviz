@@ -1,0 +1,22 @@
+scrapy shell https://en.wikipedia.org/wiki/List_of_Nobel_laureates_by_country
+
+view(response)
+h2s = response.xpath('//h2')
+h2s
+len(h2s)
+h2 = h2s[0]
+h2
+h2.extract()
+h2s[1].extract()
+h2s[2].extract()
+h2_arg = h2s[2]
+country = h2_arg.xpath('span[@class="mw-headline"]/text()').extract()
+country
+ol_arg = h2_arg.xpath('following-sibling::ol[1]')
+ol_arg
+ol_arg = h2_arg.xpath('following-sibling::ol[1]')[0]
+ol_arg
+ol_arg.xpath('li')
+lis_arg = ol_arg.xpath('li')
+
+
