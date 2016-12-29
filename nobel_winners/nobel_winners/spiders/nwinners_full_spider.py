@@ -68,11 +68,11 @@ class NWinnerSpider(scrapy.Spider):
     ]
     # C A parse method to deal with the HTTP response
     def parse(self,response):
-        filename = response.url.split('/')[-1]
+        # filename = response.url.split('/')[-1]
 
         h2s = response.xpath('//h2')
 
-        for h2 in list(h2s)[:2]:
+        for h2 in h2s[2:]:
             country = h2.xpath('span[@class="mw-headline"]/text()').extract()
             if country:
                 winners = h2.xpath('following-sibling::ol[1]')
