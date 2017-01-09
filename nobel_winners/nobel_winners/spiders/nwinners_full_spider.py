@@ -89,7 +89,7 @@ class NWinnerSpider(scrapy.Spider):
         item = response.meta['item']
         href = response.xpath("//li[@id='t-wikibase']/a/@href").extract()
         if href:
-            request = scrapy.Request('https:' + href[0],
+            request = scrapy.Request(href[0],
                         callback=self.parse_wikidata,
                         dont_filter=True)
             request.meta['item'] = item

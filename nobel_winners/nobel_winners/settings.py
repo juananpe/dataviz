@@ -66,7 +66,7 @@ ROBOTSTXT_OBEY = True
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     # 'nobel_winners.pipelines.DropNonPersons': 1,
-    'nobel_winners.pipelines.NobelImagesPipeline': 1,
+    # 'nobel_winners.pipelines.NobelImagesPipeline': 1,
 }
 
 IMAGES_STORE = 'images'
